@@ -1,0 +1,9 @@
+﻿  main.cpp
+c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(4): warning C4005: 'WIN32': マクロが再定義されました。
+  c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(4): note: コマンド ラインの引数: 'WIN32' の前の定義を確認してください
+c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(12): fatal error C1083: include ファイルを開けません。'opencv2/opencv.hpp':No such file or directory
+  FlyCap2CVcomposite.cpp
+c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(4): warning C4005: 'WIN32': マクロが再定義されました。
+  c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(4): note: コマンド ラインの引数: 'WIN32' の前の定義を確認してください
+c:\users\圭祐\desktop\岡嶋研究室\卒研\cross-modalarsystem\cross-modalarsystem\flycap2cvcomposite.h(12): fatal error C1083: include ファイルを開けません。'opencv2/opencv.hpp':No such file or directory
+  コードを生成中...

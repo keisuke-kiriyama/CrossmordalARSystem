@@ -1,0 +1,294 @@
+#include"FlyCap2CVcomposite.h"
+using namespace FlyCapture2;
+
+FlyCap2CVcomposite::FlyCap2CVcomposite()		//constructor
+{
+	/*
+	The object must first be connected to using Connect()
+	 * before any other operations can proceed
+	 */
+
+	//Connect the camera
+
+	fcError = fcCamera.Connect(0);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to connect camera" << endl;
+		return;
+	}
+
+	//Get camera info
+
+	fcError = fcCamera.GetCameraInfo(&fcCameraInfo);		//Camera info is stored in fcCameraInfo.
+	if (fcError != PGRERROR_OK)								
+	{
+		cout << "failed to get camera info" << endl;
+		return;
+	}
+	/*
+	if you want to do, print out camera information here. 
+	camera information is included in &fcCameraInfo.
+	*/
+
+	//Set video property
+	
+	fcCamera.SetVideoModeAndFrameRate(VIDEOMODE_FORMAT7, FRAMERATE_FORMAT7);
+	
+	//setting range of image here. offset and width, height
+
+	/*Format7Info imginfo;
+	fcCamera.GetFormat7Info(&imginfo, 0);	//get format info*/	
+	Format7ImageSettings imgSetting;
+	imgSetting.offsetX = 288;//232 212 864 626
+	imgSetting.offsetY = 150;
+	imgSetting.width = 832;
+	imgSetting.height = 642;
+	imgSetting.pixelFormat = PIXEL_FORMAT_RAW8;
+
+	fcError = fcCamera.SetFormat7Configuration(&imgSetting, 100.0f);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set format " << endl;
+		return;
+	}
+	// Disable Auto changes
+	
+	brightnessSetting(false, 9.180);
+	sharpnessSetting(false, 1024);
+	exposureSetting(false, 0.714f);
+	hueSetting(false,46.758);
+	saturationSetting(false, 100.00);
+	gammaSetting(false, 1.795f);
+	shutterSetting(false, 6.762f);
+	framerateSetting(false , 96.000f);
+	WBSetting(false, 670, 610);
+	gainSetting(false, 16.978f);
+
+	
+
+	//Start Capture
+
+	fcError = fcCamera.StartCapture();
+	if (fcError == PGRERROR_ISOCH_BANDWIDTH_EXCEEDED)
+	{
+		cout << " Isochronous bandwidth exceeded" << endl;
+	}
+	else if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to start capture" << endl;
+	}
+}
+
+FlyCap2CVcomposite::~FlyCap2CVcomposite()	//destructor
+{
+	fcError = fcCamera.StopCapture();
+	if (fcError != PGRERROR_OK)
+	{
+		// This may fail when the camera was removed, so don't show 
+		// an error message
+	}
+	fcCamera.Disconnect();
+}
+
+/*********property setting*********/
+/******* true -> auto . false -> manual ********/
+
+//brightness
+
+void FlyCap2CVcomposite::brightnessSetting(bool flag, float percent)
+{
+	Property prop;
+	prop.type = BRIGHTNESS;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = percent;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set brightness property" << endl;
+	}
+	return;
+}
+
+//exposure
+void FlyCap2CVcomposite::exposureSetting(bool flag, float ev)
+{
+	Property prop;
+	prop.type = AUTO_EXPOSURE;
+	prop.autoManualMode = flag;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = ev;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set exposure property" << endl;
+	}
+	return;
+}
+
+//sharpness
+
+void FlyCap2CVcomposite::sharpnessSetting(bool flag, float value)
+{
+	Property prop;
+	prop.type = SHARPNESS;
+	prop.onOff = true;
+	prop.autoManualMode = flag;
+	prop.valueA = value;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set sharpness property" << endl;
+	}
+	return;
+}
+
+//hue
+void FlyCap2CVcomposite::hueSetting(bool flag, float deg)
+{
+	Property prop;
+	prop.type = HUE;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = deg;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set hue property" << endl;
+	}
+	return;
+}
+
+//saturation
+void FlyCap2CVcomposite::saturationSetting(bool flag, float percent)
+{
+	Property prop;
+	prop.type = SATURATION;
+	prop.autoManualMode = flag;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = percent;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set saturation property" << endl;
+	}
+	return;
+}
+
+//gamma
+void FlyCap2CVcomposite::gammaSetting(bool flag, float value)
+{
+	Property prop;
+	prop.type = GAMMA;
+	prop.autoManualMode = flag;
+	prop.onOff = true;
+	prop.absControl = true;
+	prop.absValue = value;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set gamma property" << endl;
+	}
+	return;
+}
+
+//shutter
+void FlyCap2CVcomposite::shutterSetting(bool flag, float ms)
+{
+	Property prop;
+	prop.type = SHUTTER;
+	prop.autoManualMode = flag;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = ms;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set shutter property" << endl;
+	}
+	return;
+}
+
+//gain
+void FlyCap2CVcomposite::gainSetting(bool flag, float dB)
+{
+	Property prop;
+	prop.type = GAIN;
+	prop.autoManualMode = flag;
+	prop.absControl = true;
+	prop.absValue = dB;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set gain property" << endl;
+	}
+	return;
+}
+//framerate
+void FlyCap2CVcomposite::framerateSetting(bool flag, float fps)
+{
+	Property prop;
+	prop.type = FRAME_RATE;
+	prop.autoManualMode = flag;
+	prop.absControl = true;
+	prop.onOff = true;
+	prop.absValue = fps;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set framerate property" << endl;
+	}
+	return;
+}
+
+//whitebalance
+void FlyCap2CVcomposite::WBSetting(bool flag, float Rvalue, float Bvalue)
+{
+	Property prop;
+	prop.type = WHITE_BALANCE;
+	prop.onOff = true;
+	prop.autoManualMode = flag;
+	prop.absValue = 0;
+	prop.valueA = Rvalue;
+	prop.valueB = Bvalue;
+	fcError = fcCamera.SetProperty(&prop);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to set white balance property" << endl;
+	}
+	return;
+}
+
+//transfer cv::Mat
+
+cv::Mat FlyCap2CVcomposite::readImg()
+{
+	//Get the image.
+	fcError = fcCamera.RetrieveBuffer(&fcImg);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to capture image" << endl;
+		return matImg;
+	}
+
+	//convert to BGR
+	fcError = fcImg.Convert(PIXEL_FORMAT_BGR, &bgrImg);
+	if (fcError != PGRERROR_OK)
+	{
+		cout << "failed to conver to BGR" << endl;
+		return matImg;
+	}
+	//convert to MatImage
+
+	unsigned int rowBytes = (unsigned int)((double)bgrImg.GetReceivedDataSize() / (double)bgrImg.GetRows());
+	matImg = Mat(bgrImg.GetRows(), bgrImg.GetCols(), CV_8UC3, bgrImg.GetData(), rowBytes);
+
+	return matImg;
+}
+
+bool FlyCap2CVcomposite::checkError()
+{
+	return fcError != PGRERROR_OK;
+}

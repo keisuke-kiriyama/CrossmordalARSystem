@@ -1,0 +1,12 @@
+﻿  cvCalibration.cpp
+c:\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+c:\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+c:\opencv\build\include\opencv2\core\utility.hpp : warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+  コードを生成中...
+  スキップ中... (関連する変更は検出されませんでした)
+  main.cpp
+  cvOperation.cpp
+  FlyCap2CVcomposite.cpp
+  Cross-modalARsystem.vcxproj -> \\COLOMBIA\Arce\桐山\卒研\Cross-modalARsystem\x64\Debug\Cross-modalARsystem.exe
+  Cross-modalARsystem.vcxproj -> \\COLOMBIA\Arce\桐山\卒研\Cross-modalARsystem\x64\Debug\Cross-modalARsystem.pdb (Full PDB)
